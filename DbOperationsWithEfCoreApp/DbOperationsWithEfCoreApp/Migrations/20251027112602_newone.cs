@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DbOperationsWithEfCoreApp.Migrations
 {
     /// <inheritdoc />
-    public partial class @new : Migration
+    public partial class newone : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,14 +17,14 @@ namespace DbOperationsWithEfCoreApp.Migrations
                 name: "Currencies",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Currencies", x => x.id);
+                    table.PrimaryKey("PK_Currencies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,8 +52,7 @@ namespace DbOperationsWithEfCoreApp.Migrations
                     NoOfPages = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LanguageId = table.Column<int>(type: "int", nullable: false),
-                    country = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    LanguageId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,16 +88,16 @@ namespace DbOperationsWithEfCoreApp.Migrations
                         name: "FK_BookPrices_Currencies_CurrencyId",
                         column: x => x.CurrencyId,
                         principalTable: "Currencies",
-                        principalColumn: "id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Currencies",
-                columns: new[] { "id", "Title", "description" },
+                columns: new[] { "Id", "Description", "Title" },
                 values: new object[,]
                 {
-                    { 1, "INR", "Indian INR" },
+                    { 1, "Indian INR", "INR" },
                     { 2, "Dollar", "Dollar" },
                     { 3, "Euro", "Euro" },
                     { 4, "Dinar", "Dinar" }

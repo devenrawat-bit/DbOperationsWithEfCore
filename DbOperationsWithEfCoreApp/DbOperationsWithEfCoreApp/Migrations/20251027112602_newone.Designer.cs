@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbOperationsWithEfCoreApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251027110956_new")]
-    partial class @new
+    [Migration("20251027112602_newone")]
+    partial class newone
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,10 +53,6 @@ namespace DbOperationsWithEfCoreApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("LanguageId");
@@ -92,48 +88,48 @@ namespace DbOperationsWithEfCoreApp.Migrations
 
             modelBuilder.Entity("DbOperationsWithEfCoreApp.Data.Currency", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Currencies");
 
                     b.HasData(
                         new
                         {
-                            id = 1,
-                            Title = "INR",
-                            description = "Indian INR"
+                            Id = 1,
+                            Description = "Indian INR",
+                            Title = "INR"
                         },
                         new
                         {
-                            id = 2,
-                            Title = "Dollar",
-                            description = "Dollar"
+                            Id = 2,
+                            Description = "Dollar",
+                            Title = "Dollar"
                         },
                         new
                         {
-                            id = 3,
-                            Title = "Euro",
-                            description = "Euro"
+                            Id = 3,
+                            Description = "Euro",
+                            Title = "Euro"
                         },
                         new
                         {
-                            id = 4,
-                            Title = "Dinar",
-                            description = "Dinar"
+                            Id = 4,
+                            Description = "Dinar",
+                            Title = "Dinar"
                         });
                 });
 

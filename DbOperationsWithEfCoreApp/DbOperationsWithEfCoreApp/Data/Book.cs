@@ -13,6 +13,6 @@
         public Language Language { get; set; } //one to many relationship
         //ismein pehla Language (left side wala) type hai —
         //aur doosra Language (right side wala) property ka naam hai.
-        public string country { get; set; }
+       
     }
 }
