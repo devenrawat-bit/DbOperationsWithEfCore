@@ -65,6 +65,7 @@ namespace DbOperationsWithEfCoreApp.Controllers
             {
                 return NotFound($"Book with id {id} not found");
             }
+            //here we are hitting the db for the first time to get the book record to be updated
 
             result.Title = updatedBook.Title;
             result.Description = updatedBook.Description;
@@ -72,9 +73,11 @@ namespace DbOperationsWithEfCoreApp.Controllers
             //result.IsActive = updatedBook.IsActive;
             //result.LanguageId = updatedBook.LanguageId;
             //result.AuthorId = updatedBook.AuthorId;
+            //these operations are in memory operations and not hitting in the database 
 
 
             await appDbContext.SaveChangesAsync();
+            //here we are hitting the db for the second time to save the changes
             return Ok(result);
             //in this we are hitting the database two times which is not good the solution to this is below 
 
@@ -87,11 +90,11 @@ namespace DbOperationsWithEfCoreApp.Controllers
         [HttpPut("")]
         public async Task<IActionResult> UpdateBookWithSingleHitAsync([FromBody] Book updatedBook)
         {
-            appDbContext.Books.Update(updatedBook);
+            appDbContext.Books.Update(updatedBook);//here this will not create a first hit to the database instead it will track the entity directly
 
-            await appDbContext.SaveChangesAsync();
+            await appDbContext.SaveChangesAsync();//this will create the only one hit to the database to save the changes
             return Ok(updatedBook);
-            //in this we are hitting the database two times which is not good the solution to this is below 
+            //in this we are hitting the database only once which is good the drawback of this approach is we need to send all the properties of the book object even if we want to update only one property
 
         }
 
@@ -106,13 +109,53 @@ namespace DbOperationsWithEfCoreApp.Controllers
 
             //adding the where condition
             await appDbContext.Books.Where(x => x.NoOfPages > 100).ExecuteUpdateAsync(x => x.SetProperty(p => p.Title, "abdevillers is the best").SetProperty(p => p.NoOfPages, 101).SetProperty(p => p.Description, p => p.Description + "dj bravo"));//to add the data to the existing one 
-
-            await appDbContext.SaveChangesAsync();
             return Ok();
-            //in this we are hitting the database two times which is not good the solution to this is below 
+            //in this we are hitting the database only once 
 
         }
 
 
+
+        //deleting operation
+        //deleting the data in two hits of the database
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteBookAsync([FromRoute] int id)
+        {
+            var book = await appDbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
+            if (book == null)
+            {
+                return NotFound($"Book with id {id} not found");
+            }
+            appDbContext.Books.Remove(book);
+            await appDbContext.SaveChangesAsync();
+            return Ok($"Book with id {id} deleted successfully");
+            //this will hit the database two times first to find and then to delete
+
+        }
+
+        //now deleting with single hit
+        [HttpDelete("singleHit/{id:int}")]
+        public async Task<IActionResult> DeleteBookWithSingleHitAsync([FromRoute] int id)
+        {
+            //if (!await appDbContext.Books.AnyAsync(x => x.Id == id))
+            //  {
+            //      return NotFound($"Book with id {id} not found");
+            //  } to check either the data exist or not before deleting but this will again hit the database once more so we can skip this check
+
+            await appDbContext.Books.Where(x => x.Id == id).ExecuteDeleteAsync();
+            return Ok($"Book with id {id} deleted successfully");
+            //this will hit the database only once to delete the record
+        }
+
+
+
+        //now for bulk delete in single hit
+        [HttpDelete("bulkDelete/{pages:int}")]
+        public async Task<IActionResult> BulkDeleteBooksAsync([FromRoute] int pages)
+        {
+            await appDbContext.Books.Where(x => x.NoOfPages < pages).ExecuteDeleteAsync();
+            return Ok($"Books with pages less than {pages} deleted successfully");
+            //this will hit the database only once to delete the records
+        }
     }
 }
