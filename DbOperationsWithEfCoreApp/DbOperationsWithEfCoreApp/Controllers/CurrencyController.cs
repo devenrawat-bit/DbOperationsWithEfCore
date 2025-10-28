@@ -75,9 +75,9 @@ namespace DbOperationsWithEfCoreApp.Controllers
 
         //now to get multiple records using a condition
         [HttpGet("{name}/{data}")]
-        public async Task<IActionResult> GetAllCurrenciesByNameAsync([FromRoute] string name, [FromRoute] string data )//use the async keyword while dealing with database operations always
+        public async Task<IActionResult> GetAllCurrenciesByNameAsync([FromRoute] string name, [FromRoute] string data)//use the async keyword while dealing with database operations always
         {
-            var result = await _appDbContext.Currencies.Where(x => x.Title == name  && x.Description==data).ToListAsync();
+            var result = await _appDbContext.Currencies.Where(x => x.Title == name && x.Description == data).ToListAsync();
             return Ok(result);
         }
 
@@ -91,11 +91,34 @@ namespace DbOperationsWithEfCoreApp.Controllers
         //}
 
         //to get data dynamically using query string
+        //[HttpPost("all")]
+        //public async Task<IActionResult> GetAllCurrenciesUsingToListAsync([FromBody] List<int> ids)
+        //{
+        //    //var ids =new List<int> {1,2,3};  
+        //    var result = await _appDbContext.Currencies.Where(x=> ids.Contains(x.Id)).ToListAsync();
+        //    return Ok(result);
+        //}
+
+        //now selecting a specific column 
         [HttpPost("all")]
         public async Task<IActionResult> GetAllCurrenciesUsingToListAsync([FromBody] List<int> ids)
         {
             //var ids =new List<int> {1,2,3};  
-            var result = await _appDbContext.Currencies.Where(x=> ids.Contains(x.Id)).ToListAsync();
+            var result = await _appDbContext.Currencies.Where(x => ids.Contains(x.Id)).Select(
+                //x => new Currency
+                //{
+                //    Id = x.Id,
+                //    Title = x.Title
+                //}).ToListAsync();
+
+            //if there is anonyomous type required then we can do like below
+            x => new 
+                {
+                    yoId = x.Id,
+                    yoTitle = x.Title
+                }).ToListAsync();
+            //if there is no where statement then we can also use the table name directly like _appDbContext.Currencies.Select
+            //id=currencies.id and title=currencies.title like this also works 
             return Ok(result);
         }
     }
