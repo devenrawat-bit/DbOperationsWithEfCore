@@ -8,11 +8,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DbOperationsWithEfCoreApp.Migrations
 {
     /// <inheritdoc />
-    public partial class newone : Migration
+    public partial class addedagainallthedata : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Authors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Authors", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Currencies",
                 columns: table => new
@@ -52,11 +66,18 @@ namespace DbOperationsWithEfCoreApp.Migrations
                     NoOfPages = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LanguageId = table.Column<int>(type: "int", nullable: false)
+                    LanguageId = table.Column<int>(type: "int", nullable: false),
+                    AuthorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Books", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Books_Authors_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Books_Languages_LanguageId",
                         column: x => x.LanguageId,
@@ -103,6 +124,17 @@ namespace DbOperationsWithEfCoreApp.Migrations
                     { 4, "Dinar", "Dinar" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Languages",
+                columns: new[] { "Id", "Description", "Title" },
+                values: new object[,]
+                {
+                    { 1, "Hindi", "Hindi" },
+                    { 2, "Tamil", "Tamil" },
+                    { 3, "Punjabi", "Punjabi" },
+                    { 4, "Urdu", "Urdu" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_BookPrices_BookId",
                 table: "BookPrices",
@@ -112,6 +144,11 @@ namespace DbOperationsWithEfCoreApp.Migrations
                 name: "IX_BookPrices_CurrencyId",
                 table: "BookPrices",
                 column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_AuthorId",
+                table: "Books",
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_LanguageId",
@@ -130,6 +167,9 @@ namespace DbOperationsWithEfCoreApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Currencies");
+
+            migrationBuilder.DropTable(
+                name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "Languages");

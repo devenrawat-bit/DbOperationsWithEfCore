@@ -1,5 +1,37 @@
 [
   {
+    "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
+    "Method": "AddNewBookAsync",
+    "RelativePath": "api/Books",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "book",
+        "Type": "DbOperationsWithEfCoreApp.Data.Book",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
+    "Method": "AddBooksAsync",
+    "RelativePath": "api/Books/bulkAdd",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "book",
+        "Type": "System.Collections.Generic.List\u00601[[DbOperationsWithEfCoreApp.Data.Book, DbOperationsWithEfCoreApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "DbOperationsWithEfCoreApp.Controllers.CurrencyController",
     "Method": "GetAllCurrencies",
     "RelativePath": "api/Currencies",

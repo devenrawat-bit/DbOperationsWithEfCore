@@ -15,10 +15,14 @@ namespace DbOperationsWithEfCoreApp.Controllers
         {
             this._appDbContext = appDbContext;
         }
-        [HttpGet("")]
+
+
+        [HttpGet] //or we can also write the below one 
+        //[HttpGet("")]
         public async Task<IActionResult> GetAllLanguages()
         //now our application can handle multiple requests simultaneously without blocking the main thread
-        {//simultaneous means at the same time 
+        {
+            //simultaneous means at the same time 
 
             var result = await(from languages in _appDbContext.Languages
                           select languages).ToListAsync(); //query and method syntax combined

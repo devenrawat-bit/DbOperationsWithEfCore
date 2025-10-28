@@ -73,13 +73,17 @@ namespace DbOperationsWithEfCoreApp.Controllers
         //If EF finds it → it returns that record.
         //If it doesn’t find any matching record → it returns null
 
+
+
         //now to get multiple records using a condition
-        [HttpGet("{name}/{data}")]
+        [HttpGet("{name}/{data}")] //here the name and the data should match the below method parameter always when the route parameter is variable and not fixed only then it will work if its fixed then we can give any name
         public async Task<IActionResult> GetAllCurrenciesByNameAsync([FromRoute] string name, [FromRoute] string data)//use the async keyword while dealing with database operations always
         {
             var result = await _appDbContext.Currencies.Where(x => x.Title == name && x.Description == data).ToListAsync();
             return Ok(result);
         }
+
+
 
         //getting multiple records using a list of ids
         //[HttpGet("all")]
@@ -98,6 +102,8 @@ namespace DbOperationsWithEfCoreApp.Controllers
         //    var result = await _appDbContext.Currencies.Where(x=> ids.Contains(x.Id)).ToListAsync();
         //    return Ok(result);
         //}
+
+
 
         //now selecting a specific column 
         [HttpPost("all")]
