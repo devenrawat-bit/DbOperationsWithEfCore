@@ -17,6 +17,53 @@
   },
   {
     "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
+    "Method": "UpdateBookWithSingleHitAsync",
+    "RelativePath": "api/Books",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updatedBook",
+        "Type": "DbOperationsWithEfCoreApp.Data.Book",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
+    "Method": "UpdateBookAsync",
+    "RelativePath": "api/Books/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatedBook",
+        "Type": "DbOperationsWithEfCoreApp.Data.Book",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
+    "Method": "UpdateBookInBulkAsync",
+    "RelativePath": "api/Books/bulk",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
     "Method": "AddBooksAsync",
     "RelativePath": "api/Books/bulkAdd",
     "HttpMethod": "POST",
