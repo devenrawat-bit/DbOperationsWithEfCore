@@ -114,7 +114,7 @@ namespace DbOperationsWithEfCoreApp.Controllers
             //if there is anonyomous type required then we can do like below
             x => new 
                 {
-                    yoId = x.Id,
+                    yoId = x.Id, //the answer will be in the yoid =1, yotitle=inr like this the one you defined here but if you use the class name then you can not use the yoid yotitle here you have to use the property that are defined in that or the column name defined in the database 
                     yoTitle = x.Title
                 }).ToListAsync();
             //if there is no where statement then we can also use the table name directly like _appDbContext.Currencies.Select
