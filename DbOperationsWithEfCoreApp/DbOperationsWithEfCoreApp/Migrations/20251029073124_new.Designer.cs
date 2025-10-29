@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbOperationsWithEfCoreApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251028092312_addedagainallthedata")]
-    partial class addedagainallthedata
+    [Migration("20251029073124_new")]
+    partial class @new
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,7 +59,6 @@ namespace DbOperationsWithEfCoreApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -72,7 +71,6 @@ namespace DbOperationsWithEfCoreApp.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -86,11 +84,11 @@ namespace DbOperationsWithEfCoreApp.Migrations
 
             modelBuilder.Entity("DbOperationsWithEfCoreApp.Data.BookPrice", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Amount")
                         .HasColumnType("int");
@@ -101,7 +99,7 @@ namespace DbOperationsWithEfCoreApp.Migrations
                     b.Property<int>("CurrencyId")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("BookId");
 

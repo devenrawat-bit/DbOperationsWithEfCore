@@ -10,11 +10,11 @@
         public DateTime CreatedOn { get; set; }
         //creating a foreign key relationship with Language table
         public int LanguageId { get; set; } //this column will act as foreign key
-        public Language? Language { get; set; } //one to many relationship
-                                                //ismein pehla Language (left side wala) type hai —mean class type
-                                                //aur doosra Language (right side wala) property ka naam hai.
+        public virtual Language? Language { get; set; } //one to many relationship
+        //ismein pehla Language (left side wala) type hai —mean class type
+        //aur doosra Language (right side wala) property ka naam hai.
         public int AuthorId { get; set; } //foreign key property will be created in the book table
-        public Author? Author{ get; set; } //navigation property
+        public virtual Author? Author { get; set; } //navigation property
         //here the first one is the author class type and the second one is object of the author class
         //here the right side author is the property name
     }

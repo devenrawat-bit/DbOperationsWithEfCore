@@ -9,13 +9,70 @@ namespace DbOperationsWithEfCoreApp.Controllers
     [ApiController]
     public class BooksController(AppDbContext appDbContext) : ControllerBase
     {
-        //eager loading example we have to use the include method to include the related data
-        [HttpGet("eagerLoading")]
-        public async Task<IActionResult> GetBooksAsync()
+        //using raw sql 
+        [HttpGet("rawSql")]
+        public async Task<IActionResult> GetBooksUsingRawSqlAsync()
         {
-            var result = await appDbContext.Books.Include(x => x.Author).ToListAsync();//in include method we have to pass the navigation property name which is a class
-            return Ok(result);
+            var books = await appDbContext.Books.FromSql($"SELECT top 1 * FROM Books").ToListAsync();//we can also use the linq extension method here like .where() for the filtration 
+            return Ok(books);
+            //here we are using the fromsqlraw method to execute the raw sql query and get the data from the database
+            //this is useful when we want to execute complex queries that are not supported by linq or ef core
         }
+
+
+
+
+
+        //lazy loading example
+        [HttpGet("lazyLoading")]
+        public async Task<IActionResult> GetBooksLazyLoadingAsync()
+        {
+            var books = await appDbContext.Books.FirstAsync();//first we get the books without the related data
+            //now we will access the related data which will be loaded automatically by ef core because of lazy loading
+            var authorName = books.Author?.Name; //accessing the author navigation property to trigger lazy loading
+            var language = books.Language; //accessing the language navigation property to trigger lazy loading
+            return Ok(books);
+            //in lazy loading the book table data will first be loaded in a single query and then the author and language data will be loaded in separate queries for each book when we access the navigation property
+            //the navigational properties should be virtual to use the lazy laoding 
+        }
+
+
+
+
+
+
+
+
+
+        //explicit loading example
+        [HttpGet("explicitLoading")]
+        public async Task<IActionResult> GetBooksExplicitLoadingAsync()
+        {
+            var books = await appDbContext.Books.FirstAsync();//first we get the books without the related data
+            //now we will load the related data explicitly for each book
+          
+                //loading the author data explicitly
+                await appDbContext.Entry(books).Reference(b => b.Author).LoadAsync();//reference method is used to load the reference navigation property
+                //loading the language data explicitly
+           //here the book table should have the foreign key relationship with the author table and language table
+                await appDbContext.Entry(books).Reference(b => b.Language).LoadAsync();//reference method is used to load the reference navigation property 
+            return Ok(books);
+            //in explicit loading the book table data will first be loaded in a single query and then the author and language data will be loaded in separate queries for each book 
+        }
+        //the entry method always accepts a single entity object and then we can use the reference method to load the reference navigation property or collection method to load the collection navigation property
+
+
+
+
+
+
+        //eager loading example we have to use the include method to include the related data
+        //[HttpGet("eagerLoading")]
+        //public async Task<IActionResult> GetBooksAsync()
+        //{
+        //    var result = await appDbContext.Books.Include(x => x.Author).ThenInclude(x => x.Currency).ToListAsync();//in include method we have to pass the navigation property name which is a class
+        //    return Ok(result);
+        //}
         //with the use of the eager loading we dont need to use the navigation property to get the related data  
         //the related data is the data that is present in the related table with the help of foreign key relationship like in the book table the related data is the author table and the language table
         //but here we still use the navigation property to include the related data in behind the scenes the ef core will create the join query to get the related data from the related table

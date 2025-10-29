@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbOperationsWithEfCoreApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251029065737_todayfirst29")]
-    partial class todayfirst29
+    [Migration("20251029074124_addedforeignkeyinauthor")]
+    partial class addedforeignkeyinauthor
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace DbOperationsWithEfCoreApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CurrencyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -40,6 +43,8 @@ namespace DbOperationsWithEfCoreApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
 
                     b.ToTable("Authors");
                 });
@@ -84,11 +89,11 @@ namespace DbOperationsWithEfCoreApp.Migrations
 
             modelBuilder.Entity("DbOperationsWithEfCoreApp.Data.BookPrice", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Amount")
                         .HasColumnType("int");
@@ -99,7 +104,7 @@ namespace DbOperationsWithEfCoreApp.Migrations
                     b.Property<int>("CurrencyId")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
@@ -200,6 +205,15 @@ namespace DbOperationsWithEfCoreApp.Migrations
                             Description = "Urdu",
                             Title = "Urdu"
                         });
+                });
+
+            modelBuilder.Entity("DbOperationsWithEfCoreApp.Data.Author", b =>
+                {
+                    b.HasOne("DbOperationsWithEfCoreApp.Data.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId");
+
+                    b.Navigation("Currency");
                 });
 
             modelBuilder.Entity("DbOperationsWithEfCoreApp.Data.Book", b =>

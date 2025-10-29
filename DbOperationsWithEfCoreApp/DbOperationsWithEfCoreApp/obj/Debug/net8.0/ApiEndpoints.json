@@ -122,8 +122,28 @@
   },
   {
     "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
-    "Method": "GetBooksAsync",
-    "RelativePath": "api/Books/eagerLoading",
+    "Method": "GetBooksExplicitLoadingAsync",
+    "RelativePath": "api/Books/explicitLoading",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
+    "Method": "GetBooksLazyLoadingAsync",
+    "RelativePath": "api/Books/lazyLoading",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
+    "Method": "GetBooksUsingRawSqlAsync",
+    "RelativePath": "api/Books/rawSql",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

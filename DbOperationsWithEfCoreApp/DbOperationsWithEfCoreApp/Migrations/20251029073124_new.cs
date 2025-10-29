@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DbOperationsWithEfCoreApp.Migrations
 {
     /// <inheritdoc />
-    public partial class addedagainallthedata : Migration
+    public partial class @new : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -61,8 +61,8 @@ namespace DbOperationsWithEfCoreApp.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NoOfPages = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -90,7 +90,7 @@ namespace DbOperationsWithEfCoreApp.Migrations
                 name: "BookPrices",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BookId = table.Column<int>(type: "int", nullable: false),
                     CurrencyId = table.Column<int>(type: "int", nullable: false),
@@ -98,7 +98,7 @@ namespace DbOperationsWithEfCoreApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookPrices", x => x.id);
+                    table.PrimaryKey("PK_BookPrices", x => x.Id);
                     table.ForeignKey(
                         name: "FK_BookPrices_Books_BookId",
                         column: x => x.BookId,

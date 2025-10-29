@@ -5,7 +5,31 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Books/eagerLoading": {
+    "/api/Books/rawSql": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Books/lazyLoading": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Books/explicitLoading": {
       "get": {
         "tags": [
           "Books"
@@ -445,13 +469,6 @@
           },
           "description": {
             "type": "string",
-            "nullable": true
-          },
-          "books": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Book"
-            },
             "nullable": true
           }
         },
