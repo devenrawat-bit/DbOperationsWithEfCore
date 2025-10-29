@@ -9,6 +9,21 @@ namespace DbOperationsWithEfCoreApp.Controllers
     [ApiController]
     public class BooksController(AppDbContext appDbContext) : ControllerBase
     {
+        //using stored procedure
+        [HttpGet("storedProcedure/{id}")]
+        public async Task<IActionResult> GetBooksUsingStoredProcAsync(int id)
+        {
+            var books = await appDbContext.Books.FromSql($"EXEC GetBook @BookId={id}").ToListAsync();//we can also use the linq extension method here like .where() for the filtration 
+            return Ok(books);
+            //here we are using the fromsqlraw method to execute the stored procedure and get the data from the database
+            //this is useful when we have complex logic in the stored procedure that we want to execute in the database
+        }
+
+
+
+
+
+
         //using raw sql 
         [HttpGet("rawSql")]
         public async Task<IActionResult> GetBooksUsingRawSqlAsync()

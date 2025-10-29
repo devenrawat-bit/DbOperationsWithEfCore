@@ -167,6 +167,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
+    "Method": "GetBooksUsingStoredProcAsync",
+    "RelativePath": "api/Books/storedProcedure/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "DbOperationsWithEfCoreApp.Controllers.CurrencyController",
     "Method": "GetAllCurrencies",
     "RelativePath": "api/Currencies",
