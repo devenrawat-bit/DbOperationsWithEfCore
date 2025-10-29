@@ -9,8 +9,37 @@ namespace DbOperationsWithEfCoreApp.Controllers
     [ApiController]
     public class BooksController(AppDbContext appDbContext) : ControllerBase
     {
+        //eager loading example we have to use the include method to include the related data
+        [HttpGet("eagerLoading")]
+        public async Task<IActionResult> GetBooksAsync()
+        {
+            var result = await appDbContext.Books.Include(x => x.Author).ToListAsync();//in include method we have to pass the navigation property name which is a class
+            return Ok(result);
+        }
+        //with the use of the eager loading we dont need to use the navigation property to get the related data  
+        //the related data is the data that is present in the related table with the help of foreign key relationship like in the book table the related data is the author table and the language table
+        //but here we still use the navigation property to include the related data in behind the scenes the ef core will create the join query to get the related data from the related table
+
+
+
+
+
+
+        //to get a single book record with our custom response using anonyomous object
+        [HttpGet("")]
+        public async Task<IActionResult> GetBookAsync()
+        {
+            var result = await appDbContext.Books.Select(x => new
+            {
+                Title = x.Title,
+                Description = x.Description,
+                NoOfPages = x.NoOfPages,
+                AuthorName = x.Author != null ? x.Author.Name : "NA" // Use a string property for author name
+            }).ToListAsync();
+            return Ok(result); 
+        }
         [HttpPost("")]
-        public async Task<IActionResult> AddNewBookAsync([FromBody] Book book)//book here is the class object and now we can access all the properties of the book class
+        public async Task<IActionResult> AddNewBookAsync([FromBody] Book book)//book here is the Book class object and now we can access all the properties of the book class
         {
 
             //to hardcore the author data 
@@ -44,6 +73,7 @@ namespace DbOperationsWithEfCoreApp.Controllers
 
         //note the add method is used for only one record insertion to insert multiple records use addrange method
         //url is api/books/bulkAdd
+        //and the rest is same as above
         [HttpPost("bulkAdd")]
         public async Task<IActionResult> AddBooksAsync([FromBody] List<Book> book)
         {
@@ -60,13 +90,14 @@ namespace DbOperationsWithEfCoreApp.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateBookAsync([FromRoute] int id, [FromBody] Book updatedBook)
         {
-            var result = await appDbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
-            if (result == null)
+            var result = await appDbContext.Books.FirstOrDefaultAsync(x => x.Id == id);//taking the value 
+            if (result == null) //checking if the book with the given id exists
             {
                 return NotFound($"Book with id {id} not found");
             }
             //here we are hitting the db for the first time to get the book record to be updated
 
+            //updating the properties of the retrieved book record with the values from the updatedBook object
             result.Title = updatedBook.Title;
             result.Description = updatedBook.Description;
             result.NoOfPages = updatedBook.NoOfPages;
@@ -100,6 +131,7 @@ namespace DbOperationsWithEfCoreApp.Controllers
 
 
 
+
         //updating the books in bulk 
         [HttpPut("bulk")]
         public async Task<IActionResult> UpdateBookInBulkAsync()
@@ -121,13 +153,14 @@ namespace DbOperationsWithEfCoreApp.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteBookAsync([FromRoute] int id)
         {
-            var book = await appDbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
+            var book = await appDbContext.Books.FirstOrDefaultAsync(x => x.Id == id);//the first hit to find the book
             if (book == null)
             {
                 return NotFound($"Book with id {id} not found");
             }
-            appDbContext.Books.Remove(book);
-            await appDbContext.SaveChangesAsync();
+            appDbContext.Books.Remove(book);//remove is the method to delete the record
+
+            await appDbContext.SaveChangesAsync();//second hit to delete the book
             return Ok($"Book with id {id} deleted successfully");
             //this will hit the database two times first to find and then to delete
 
@@ -157,8 +190,13 @@ namespace DbOperationsWithEfCoreApp.Controllers
         public async Task<IActionResult> BulkDeleteBooksAsync([FromRoute] int id)
         {
             await appDbContext.Books.Where(x => x.Id < id).ExecuteDeleteAsync();
+            //this method is used where we want to delete multiple records based on a condition and it is more effecient than the metod removerange as remove range delete each record individually through ef tracking 
+            //It executes(executedeleteasync) one SQL DELETE statement for all matching rows.
+
             return Ok($"Books with Id less than {id} deleted successfully");
             //this will hit the database only once to delete the records
+
+            //ExecutedeleteAsync(); is available from EF Core 7.0 onwards and it can delete the data in bulk or which ever the mathcing condition is either its only one data matching with the condition of the where with single hit to the database
         }
     }
 }

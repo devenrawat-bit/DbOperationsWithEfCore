@@ -32,8 +32,20 @@ namespace DbOperationsWithEfCoreApp.Controllers
             //this is the query syntax
 
 
+
+            //var result = await (from currencies in _appDbContext.Currencies
+            //                    select currencies).ToListAsync();
+            //combining both query and method syntax
+
+
+
+
+
+            //to save memory and increase the timing we will do asnotracking method use, by doing this the entity framework will not track the changes made to the entities retrieved from the database, this is useful in read-only scenarios where we don't intend to modify the data
+
             var result = await (from currencies in _appDbContext.Currencies
-                                select currencies).ToListAsync(); //combining both query and method syntax
+                                select currencies).AsNoTracking().ToListAsync(); //-> as no tracking is added here
+            //combining both query and method syntax
             //return Ok(result.ToList()); //200 OK status code
             return Ok(result);
         }

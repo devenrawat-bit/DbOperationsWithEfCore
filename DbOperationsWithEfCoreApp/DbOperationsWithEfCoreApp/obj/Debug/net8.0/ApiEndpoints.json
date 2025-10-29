@@ -1,6 +1,16 @@
 [
   {
     "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
+    "Method": "GetBookAsync",
+    "RelativePath": "api/Books",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
     "Method": "AddNewBookAsync",
     "RelativePath": "api/Books",
     "HttpMethod": "POST",
@@ -108,6 +118,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
+    "Method": "GetBooksAsync",
+    "RelativePath": "api/Books/eagerLoading",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
