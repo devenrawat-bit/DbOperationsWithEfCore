@@ -97,13 +97,13 @@
   {
     "ContainingType": "DbOperationsWithEfCoreApp.Controllers.BooksController",
     "Method": "BulkDeleteBooksAsync",
-    "RelativePath": "api/Books/bulkDelete/{pages}",
+    "RelativePath": "api/Books/bulkDelete/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "pages",
+        "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
       }

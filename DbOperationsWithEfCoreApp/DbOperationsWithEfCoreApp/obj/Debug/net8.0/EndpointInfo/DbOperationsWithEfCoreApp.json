@@ -203,14 +203,14 @@
         }
       }
     },
-    "/api/Books/bulkDelete/{pages}": {
+    "/api/Books/bulkDelete/{id}": {
       "delete": {
         "tags": [
           "Books"
         ],
         "parameters": [
           {
-            "name": "pages",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {

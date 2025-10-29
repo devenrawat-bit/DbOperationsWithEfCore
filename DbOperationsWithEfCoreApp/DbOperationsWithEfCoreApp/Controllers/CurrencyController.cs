@@ -38,6 +38,9 @@ namespace DbOperationsWithEfCoreApp.Controllers
             return Ok(result);
         }
 
+
+
+
         //to get the data via id(primary key)
         [HttpGet("{id:int}")]//if both the action method route is same then the swagger will give ambiguity error to fix this we will define the data type in the route 
         public async Task<IActionResult> GetAllCurrenciesByIdAsync([FromRoute] int id)//use the async keyword while dealing with database operations always
@@ -61,7 +64,10 @@ namespace DbOperationsWithEfCoreApp.Controllers
 
 
 
+
+
         //getting one record using multiple parameter (route)
+        //title and the description here is the property of the currency class->right, checked by gpt 
         //[HttpGet("{name}/{description}")]
         //public async Task<IActionResult> GetAllCurrenciesByNameAsync([FromRoute] string name, [FromRoute] string description)//use the async keyword while dealing with database operations always
         //{
@@ -72,6 +78,8 @@ namespace DbOperationsWithEfCoreApp.Controllers
         //👉 “Go to the Currencies table, and find the first record where the Title column matches the name value from the route AND the Description column matches the description value from the route.”
         //If EF finds it → it returns that record.
         //If it doesn’t find any matching record → it returns null
+
+
 
 
 

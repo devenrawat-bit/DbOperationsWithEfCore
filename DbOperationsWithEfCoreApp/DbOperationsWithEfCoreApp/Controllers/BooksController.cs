@@ -133,6 +133,8 @@ namespace DbOperationsWithEfCoreApp.Controllers
 
         }
 
+
+
         //now deleting with single hit
         [HttpDelete("singleHit/{id:int}")]
         public async Task<IActionResult> DeleteBookWithSingleHitAsync([FromRoute] int id)
@@ -149,12 +151,13 @@ namespace DbOperationsWithEfCoreApp.Controllers
 
 
 
+
         //now for bulk delete in single hit
-        [HttpDelete("bulkDelete/{pages:int}")]
-        public async Task<IActionResult> BulkDeleteBooksAsync([FromRoute] int pages)
+        [HttpDelete("bulkDelete/{id:int}")]
+        public async Task<IActionResult> BulkDeleteBooksAsync([FromRoute] int id)
         {
-            await appDbContext.Books.Where(x => x.NoOfPages < pages).ExecuteDeleteAsync();
-            return Ok($"Books with pages less than {pages} deleted successfully");
+            await appDbContext.Books.Where(x => x.Id < id).ExecuteDeleteAsync();
+            return Ok($"Books with Id less than {id} deleted successfully");
             //this will hit the database only once to delete the records
         }
     }
